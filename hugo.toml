@@ -8,7 +8,8 @@ title = 'The Literary Ledger'  # Your site name
 
 baseURL = '/'  # Leave as '/' — GitHub Actions overrides this automatically for GitHub Pages
 locale = 'en-us'
-theme = 'literary'
+theme = "literary"
+themesDir = "themes"
 minify = true
 
 [taxonomies]
