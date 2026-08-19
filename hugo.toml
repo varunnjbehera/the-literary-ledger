@@ -1,0 +1,19 @@
+# ── CUSTOMIZE THESE LINES ────────────────────────────────────────────────────
+title = 'The Literary Ledger'  # Your site name
+
+[params]
+  description = 'A curated archive of critical reflections, deep dives, and the timeless pursuit of a perfect story.'  # Shown in search results
+  author = 'The Literary Ledger'  # Your name or pen name
+# ─────────────────────────────────────────────────────────────────────────────
+
+baseURL = '/'  # Leave as '/' — GitHub Actions overrides this automatically for GitHub Pages
+locale = 'en-us'
+theme = 'literary'
+minify = true
+
+[taxonomies]
+  genres = 'genre'
+  tag = 'tags'
+
+[outputs]
+  home = ['HTML', 'JSON']

@@ -1,0 +1,53 @@
+{{ define "main" }}
+<div class="max-w-6xl mx-auto px-6 py-16">
+    <div class="mb-16 text-center">
+        <h1 class="text-5xl font-serif font-bold mb-4 text-lit-dark">The Book Archive</h1>
+        <p class="text-lit-gray text-lg max-w-2xl mx-auto font-light">
+            Every story reviewed, every page analyzed. Explore the full collection of literary journeys.
+        </p>
+    </div>
+
+    <!-- Genre Ribbon -->
+    <div class="flex flex-wrap justify-center gap-3 mb-16">
+        {{ range .Site.Taxonomies.genre }}<a href="{{ .Page.RelPermalink }}" class="banner-link px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">{{ .Page.Title }}</a>{{ end }}
+    </div>
+
+    <div class="book-grid">
+        {{ range .Pages }}
+        <article class="group relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col overflow-hidden">
+            <div class="aspect-[2/3] overflow-hidden bg-gray-100">
+                {{ $coverPath := .Params.cover }}
+                {{ $imgSrc := $coverPath }}
+                {{ if and $coverPath (not (findRE "^http" $coverPath)) }}
+                    {{ $cover := resources.Get $coverPath }}
+                    {{ if $cover }}
+                        {{ $optimized := $cover.Resize "400x" }}
+                        {{ $imgSrc = $optimized.RelPermalink }}
+                    {{ end }}
+                {{ end }}
+                <img src="{{ $imgSrc }}" alt="{{ .Title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-8 flex flex-col flex-grow">
+                <div class="mb-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-lit-accent block mb-2">{{ .Params.genre }}</span>
+                    <div class="min-h-[64px] overflow-hidden">
+                        <h3 class="text-2xl font-serif font-bold leading-tight text-lit-dark group-hover:text-lit-accent transition-colors line-clamp-2">
+                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="min-h-[80px] overflow-hidden mb-6">
+                    <div class="text-lit-gray text-sm leading-relaxed line-clamp-3">
+                        {{ .Params.description }}
+                    </div>
+                </div>
+                <a href="{{ .RelPermalink }}" class="mt-auto inline-flex items-center text-sm font-bold uppercase tracking-wider text-lit-dark group-hover:text-lit-accent transition-colors">
+                    Read Full Review 
+                    <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </article>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

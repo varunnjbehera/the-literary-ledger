@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    {{ $desc := cond .IsHome (.Site.Params.description | default "A curated archive of critical reflections and literary journeys.") (cond (ne .Description "") .Description (printf "%s review and analysis." .Title)) }}
+    <meta name="description" content="{{ $desc }}">
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ .Site.BaseURL }}index.xml">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}">
+    <meta property="og:description" content="{{ $desc }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+    {{ if .Params.cover }}<meta property="og:image" content="{{ .Site.BaseURL }}{{ .Params.cover }}">{{ end }}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary{{ if .Params.cover }}_large_image{{ end }}">
+    <meta name="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+    <meta name="twitter:description" content="{{ $desc }}">
+    {{ if .Params.cover }}<meta name="twitter:image" content="{{ .Site.BaseURL }}{{ .Params.cover }}">{{ end }}
+
+    <!-- Apply saved theme before first paint to prevent flash -->
+    <script>(function(){var m=localStorage.getItem('readingMode');if(m&&['mode-light','mode-sepia','mode-dark'].indexOf(m)>-1)document.documentElement.classList.add(m);}());</script>
+
+    <!-- CSS (includes self-hosted fonts) -->
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" integrity="sha384-zPE55eyESN+FxCWGEnlNxGyAPJud6IZ6TtJmXb56OFRGhxZPN4akj9rjA3gw5Qqa" crossorigin="anonymous" defer></script>
+    <script src="/js/search.js" defer></script>
+
+    <style>
+        /* CSS vars on :root = light mode defaults */
+        :root {
+            --bg-main: #fcfaf7;
+            --text-main: #1a1a1a;
+            --text-muted: #6b7280;
+            --card-bg: #ffffff;
+            --card-border: #f3f4f6;
+            --accent: #b8955a;
+            --banner-bg: rgba(184, 149, 90, 0.1);
+            --banner-text: #1a1a1a;
+            --footer-border: #e5e7eb;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Vars on html element cascade to all children */
+        html.mode-sepia {
+            --bg-main: #f4ecd8;
+            --text-main: #5b4636;
+            --text-muted: #7a6a5c;
+            --card-bg: #efe4c9;
+            --card-border: #dcd0b0;
+            --banner-bg: #d4c08a;
+            --banner-text: #5b4636;
+            --footer-border: #dcd0b0;
+            --glass-bg: rgba(244, 236, 216, 0.9);
+        }
+
+        html.mode-dark {
+            --bg-main: #1a1a1a;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --card-bg: #262626;
+            --card-border: #3f3f3f;
+            --banner-bg: #B8860B;
+            --banner-text: #ffffff;
+            --footer-border: #3f3f3f;
+            --glass-bg: rgba(26, 26, 26, 0.92);
+        }
+
+        body {
+            background-color: var(--bg-main) !important;
+            color: var(--text-main) !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Override static Tailwind color classes with themed vars */
+        body .text-lit-dark  { color: var(--text-main) !important; }
+        body .text-lit-gray  { color: var(--text-muted) !important; }
+        body .bg-white       { background-color: var(--card-bg) !important; }
+        body .border-gray-100 { border-color: var(--card-border) !important; }
+        body .border-gray-200 { border-color: var(--card-border) !important; }
+        body .bg-gray-100    { background-color: var(--card-border) !important; }
+        body .bg-gray-200    { background-color: var(--card-border) !important; }
+
+        /* Glass header adapts to each theme */
+        .glass {
+            background-color: var(--glass-bg) !important;
+            border-color: var(--card-border) !important;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Genre ribbon pills — all states use CSS vars, no JS overrides needed */
+        .banner-link {
+            background-color: var(--banner-bg) !important;
+            color: var(--banner-text) !important;
+            border: 1px solid var(--accent) !important;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Hover must have higher specificity than the base rule above */
+        .banner-link:hover,
+        html.mode-sepia .banner-link:hover,
+        html.mode-dark .banner-link:hover {
+            background-color: var(--accent) !important;
+            color: #ffffff !important;
+            border-color: var(--accent) !important;
+        }
+
+        /* Search button in header — inverts to always be visible */
+        .header-search-btn {
+            background-color: var(--text-main) !important;
+            color: var(--bg-main) !important;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .header-search-btn:hover {
+            background-color: var(--accent) !important;
+            color: #ffffff !important;
+        }
+
+        /* Quote section: bg-lit-dark (#1a1a1a) is invisible on dark background */
+        html.mode-dark .bg-lit-dark {
+            background-color: var(--card-bg) !important;
+            border: 1px solid rgba(184, 149, 90, 0.35) !important;
+        }
+
+        /* Mode toggle hover — should use a dark tone in dark/sepia, not light gray */
+        html.mode-dark header button:hover,
+        html.mode-sepia header button:hover {
+            background-color: var(--card-border) !important;
+        }
+
+        /* Book cover border becomes too stark in dark mode */
+        html.mode-dark .border-white {
+            border-color: var(--card-border) !important;
+        }
+
+        /* Search modal backdrop */
+        html.mode-dark #search-modal {
+            background-color: rgba(0, 0, 0, 0.78) !important;
+        }
+        html.mode-sepia #search-modal {
+            background-color: rgba(91, 70, 54, 0.45) !important;
+        }
+
+        /* Search result hover in dark mode */
+        html.mode-dark #search-results a:hover {
+            background-color: var(--card-border) !important;
+        }
+
+        /* Prose (review body) — adapt typography plugin colors to theme */
+        html.mode-dark .prose {
+            --tw-prose-body: var(--text-main);
+            --tw-prose-headings: var(--text-main);
+            --tw-prose-lead: var(--text-muted);
+            --tw-prose-links: #b8955a;
+            --tw-prose-bold: var(--text-main);
+            --tw-prose-counters: var(--text-muted);
+            --tw-prose-bullets: var(--text-muted);
+            --tw-prose-hr: var(--card-border);
+            --tw-prose-quotes: var(--text-main);
+            --tw-prose-quote-borders: var(--accent);
+            --tw-prose-captions: var(--text-muted);
+            --tw-prose-code: var(--text-main);
+            --tw-prose-th-borders: var(--card-border);
+            --tw-prose-td-borders: var(--card-border);
+        }
+        html.mode-sepia .prose {
+            --tw-prose-body: var(--text-main);
+            --tw-prose-headings: #3a2c1f;
+            --tw-prose-lead: var(--text-muted);
+            --tw-prose-links: #8a6a3a;
+            --tw-prose-bold: #3a2c1f;
+            --tw-prose-counters: var(--text-muted);
+            --tw-prose-bullets: var(--text-muted);
+            --tw-prose-hr: var(--card-border);
+            --tw-prose-quotes: var(--text-main);
+            --tw-prose-quote-borders: var(--accent);
+            --tw-prose-captions: var(--text-muted);
+            --tw-prose-code: var(--text-main);
+            --tw-prose-th-borders: var(--card-border);
+            --tw-prose-td-borders: var(--card-border);
+        }
+
+        .border-footer-line {
+            border-color: var(--footer-border) !important;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            .book-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
+    </style>
+
+</head>
+<body class="min-h-screen flex flex-col">
+    {{ partial "header.html" . }}
+    
+    <!-- Search Modal -->
+    <div id="search-modal" 
+         class="hidden fixed inset-0 z-[100] flex items-start justify-center pt-20 px-4 bg-lit-bg/90 backdrop-blur-sm"
+         role="dialog" 
+         aria-modal="true" 
+         aria-labelledby="search-modal-title">
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+            <div class="p-4 border-b border-gray-100 flex items-center gap-4">
+                <span id="search-modal-title" class="sr-only">Search the Literary Ledger</span>
+                <svg class="w-5 h-5 text-lit-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="search-input" placeholder="Search books, genres, or authors..." class="w-full outline-none text-lg py-2" aria-label="Search books, genres, or authors">
+                <button onclick="toggleSearch()" class="text-lit-gray hover:text-lit-dark" aria-label="Close search">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="search-results" class="max-h-[60vh] overflow-y-auto p-4 space-y-2">
+                <!-- Results populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-grow">
+        {{ block "main" . }}
+            {{ .Content }}
+        {{ end }}
+    </main>
+    {{ partial "footer.html" . }}
+
+    <script>
+        window.toggleSearch = function() {
+            const modal = document.getElementById('search-modal');
+            if (modal) modal.classList.toggle('hidden');
+        };
+
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', async (e) => {
+                const query = e.target.value;
+                const results = await performSearch(query);
+
+                if (!results || results.length === 0) {
+                    if (searchResults) searchResults.innerHTML = `<div class="text-center py-8 text-lit-gray font-light">No books found matching "${query}"</div>`;
+                    return;
+                }
+
+                if (searchResults) {
+                    searchResults.innerHTML = results.map(book => `
+                        <a href="${book.permalink}" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group">
+                            <div class="flex flex-col">
+                                <span class="font-serif font-bold text-lit-dark group-hover:text-lit-accent transition-colors">${book.title}</span>
+                                <span class="text-xs text-lit-gray">${book.genre || 'General'}</span>
+                            </div>
+                            <svg class="w-4 h-4 text-gray-300 group-hover:text-lit-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    `).join('');
+                }
+            });
+        }
+
+        // Reading Mode — class lives on <html> so it can be set before first paint
+        const modes = ['mode-light', 'mode-sepia', 'mode-dark'];
+        const modeIcons = {
+            'mode-light': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>',
+            'mode-sepia': '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>',
+            'mode-dark':  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9 9 0 0012 21a9 9 0 008.354-5.646z"></path>'
+        };
+
+        const saved = localStorage.getItem('readingMode');
+        window.currentModeIndex = (saved && modes.includes(saved)) ? modes.indexOf(saved) : 0;
+
+        window.applyMode = function() {
+            const html = document.documentElement;
+            html.classList.remove(...modes);
+            const mode = modes[window.currentModeIndex];
+            html.classList.add(mode);
+            localStorage.setItem('readingMode', mode);
+            const icon = document.getElementById('mode-icon');
+            if (icon) icon.innerHTML = modeIcons[mode];
+        };
+
+        window.cycleReadingMode = function() {
+            window.currentModeIndex = (window.currentModeIndex + 1) % modes.length;
+            window.applyMode();
+        };
+
+        // On load: mode class already applied by inline script in <head>.
+        // Only need to sync the icon here.
+        document.addEventListener('DOMContentLoaded', () => {
+            const icon = document.getElementById('mode-icon');
+            if (icon) icon.innerHTML = modeIcons[modes[window.currentModeIndex]];
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('search-modal');
+                if (modal && !modal.classList.contains('hidden')) window.toggleSearch();
+            }
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                if (window.toggleSearch) window.toggleSearch();
+            }
+        });
+    </script>
+</body>
+</html>

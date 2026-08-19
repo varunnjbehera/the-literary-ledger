@@ -1,0 +1,19 @@
+<header class="glass sticky top-0 z-50 transition-all duration-300">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="{{ .Site.BaseURL }}" class="site-title text-2xl font-serif font-bold tracking-tight text-lit-dark hover:text-lit-accent transition-colors">
+            {{ .Site.Title }}
+        </a>
+        <nav>
+            <ul class="flex gap-8 items-center text-sm font-medium uppercase tracking-widest">
+                <li><a href="{{ .Site.BaseURL }}" class="text-lit-dark hover:text-lit-accent transition-colors">Home</a></li>
+                <li><a href="/reviews" class="text-lit-dark hover:text-lit-accent transition-colors">Reviews</a></li>
+                <li>
+                    <button onclick="cycleReadingMode()" class="p-2 rounded-full hover:bg-gray-100 transition-colors" title="Toggle Reading Mode">
+                        <svg id="mode-icon" class="w-5 h-5 text-lit-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                </li>
+                <li><button onclick="toggleSearch()" class="header-search-btn px-4 py-2 rounded-full">Search</button></li>
+            </ul>
+        </nav>
+    </div>
+</header>

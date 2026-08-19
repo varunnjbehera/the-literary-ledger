@@ -1,0 +1,10 @@
+[
+{{- range .Site.RegularPages -}}
+{
+  "title": {{ .Title | jsonify }},
+  "permalink": {{ .RelPermalink | jsonify }},
+  "summary": {{ .Summary | jsonify }},
+  "genre": {{ .Params.genre | jsonify }}
+}{{ if not (last .Site.RegularPages) }},{{ end }}
+{{- end -}}
+]

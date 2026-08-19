@@ -1,0 +1,14 @@
+[build]
+  command = "npm install && npx tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --minify && hugo --minify"
+  publish = "public"
+
+[build.environment]
+  HUGO_VERSION = "0.162.0"
+  NODE_VERSION = "20"
+
+# These 3 variables appear as a fill-in form when someone clicks "Deploy to Netlify".
+# Fill them in before deploying — your site will be personalized automatically.
+[template.environment]
+  HUGO_TITLE            = "My Book Reviews"
+  HUGO_PARAMS_AUTHOR    = "Your Name"
+  HUGO_PARAMS_DESCRIPTION = "My personal corner for honest book reviews."

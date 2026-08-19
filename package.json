@@ -1,0 +1,14 @@
+{
+  "name": "the-literary-ledger",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --watch",
+    "build": "npx tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --minify"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.4.1",
+    "@tailwindcss/typography": "^0.5.10"
+  }
+}

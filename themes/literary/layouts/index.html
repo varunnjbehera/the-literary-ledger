@@ -1,0 +1,82 @@
+{{ define "main" }}
+<div class="max-w-6xl mx-auto px-6 py-16">
+    <!-- Hero Section -->
+    <div class="text-center mb-20">
+        <h1 class="text-6xl md:text-7xl font-serif font-bold mb-6 text-lit-dark tracking-tight">
+            The Literary Ledger
+        </h1>
+        <p class="text-lit-gray text-xl max-w-2xl mx-auto font-light leading-relaxed">
+            A curated archive of critical reflections, deep dives, and the timeless pursuit of a perfect story.
+        </p>
+    </div>
+
+    <!-- Genre Ribbon -->
+    <div class="flex flex-wrap justify-center gap-3 mb-20">
+        {{ range .Site.Taxonomies.genre }}<a href="{{ .Page.RelPermalink }}" class="banner-link px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">{{ .Page.Title }}</a>{{ end }}
+    </div>
+
+    <!-- Featured Section -->
+    <div class="mb-20">
+        <div class="flex items-center gap-4 mb-10">
+            <h2 class="text-3xl font-serif font-bold text-lit-dark">Latest Reviews</h2>
+            <div class="flex-grow h-px bg-gray-200"></div>
+        </div>
+        
+        <div class="book-grid">
+            {{ range first 4 .Site.RegularPages }}
+            <article class="group relative bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col overflow-hidden">
+                <div class="aspect-[2/3] overflow-hidden bg-gray-100">
+                    {{ $coverPath := .Params.cover }}
+                    {{ $imgSrc := $coverPath }}
+                    {{ if and $coverPath (not (findRE "^http" $coverPath)) }}
+                        {{ $cover := resources.Get $coverPath }}
+                        {{ if $cover }}
+                            {{ $optimized := $cover.Resize "400x" }}
+                            {{ $imgSrc = $optimized.RelPermalink }}
+                        {{ end }}
+                    {{ end }}
+                    <img src="{{ $imgSrc }}" alt="{{ .Title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <div class="mb-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-lit-accent block mb-2">{{ .Params.genre }}</span>
+                        <div class="min-h-[64px] overflow-hidden">
+                            <h3 class="text-2xl font-serif font-bold leading-tight text-lit-dark group-hover:text-lit-accent transition-colors line-clamp-2">
+                                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="min-h-[80px] overflow-hidden mb-6">
+                        <div class="text-lit-gray text-sm leading-relaxed line-clamp-3">
+                            {{ .Params.description }}
+                        </div>
+                    </div>
+                    <a href="{{ .RelPermalink }}" class="mt-auto inline-flex items-center text-sm font-bold uppercase tracking-wider text-lit-dark group-hover:text-lit-accent transition-colors">
+                        Read Review 
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/reviews" class="text-sm font-bold uppercase tracking-widest text-lit-dark border-b-2 border-lit-accent pb-1 hover:text-lit-accent transition-colors">
+                View Full Archive &rarr;
+            </a>
+        </div>
+    </div>
+
+    <!-- Quote Section -->
+    <div class="bg-lit-dark text-white rounded-3xl p-12 text-center relative overflow-hidden">
+        <div class="relative z-10">
+            <svg class="w-12 h-12 text-lit-accent mx-auto mb-6 opacity-50" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C20.1216 16 21.017 16.8954 21.017 18V21C21.017 22.1046 20.1216 23 19.017 23H16.017C14.9124 23 14.017 22.1046 14.017 21ZM3.017 21L3.017 18C3.017 16.8954 3.9124 16 5.017 16H8.017C9.1216 16 10.017 16.8954 10.017 18V21C10.017 22.1046 9.1216 23 8.017 23H5.017C3.9124 23 3.017 22.1046 3.017 21Z" /></svg>
+            <p class="text-2xl md:text-3xl font-serif italic leading-relaxed mb-6">
+                "A reader lives a thousand lives before he dies...<br>
+                The man who never reads lives only one."
+            </p>
+            <span class="text-lit-accent uppercase tracking-widest text-xs font-bold">— George R.R. Martin</span>
+        </div>
+    </div>
+</div>
+{{ end }}

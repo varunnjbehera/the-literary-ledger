@@ -1,0 +1,61 @@
+name: Setup My Site
+
+# Run this once after forking to personalize your site without editing any files manually.
+# Go to: Actions tab → "Setup My Site" → "Run workflow" → fill in the 3 fields → Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      site_title:
+        description: 'Your site name (e.g. "Jane Reads" or "The Midnight Library")'
+        required: true
+        default: 'My Book Reviews'
+      author_name:
+        description: 'Your name or pen name (e.g. "Jane Smith")'
+        required: true
+        default: 'A Passionate Reader'
+      site_description:
+        description: 'One sentence about your blog — shown in Google search results'
+        required: true
+        default: 'My personal corner for honest, heartfelt book reviews.'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update site configuration
+        env:
+          SITE_TITLE: ${{ github.event.inputs.site_title }}
+          AUTHOR_NAME: ${{ github.event.inputs.author_name }}
+          SITE_DESC: ${{ github.event.inputs.site_description }}
+        run: |
+          python3 - <<'PYEOF'
+          import re, os
+
+          title = os.environ['SITE_TITLE'].replace("'", "\\'")
+          author = os.environ['AUTHOR_NAME'].replace("'", "\\'")
+          description = os.environ['SITE_DESC'].replace("'", "\\'")
+
+          with open('hugo.toml', 'r') as f:
+              content = f.read()
+
+          content = re.sub(r"^title\s*=.*", f"title = '{title}'  # Your site name", content, flags=re.MULTILINE)
+          content = re.sub(r"^\s*description\s*=.*", f"  description = '{description}'  # Shown in search results", content, flags=re.MULTILINE)
+          content = re.sub(r"^\s*author\s*=.*", f"  author = '{author}'  # Your name or pen name", content, flags=re.MULTILINE)
+
+          with open('hugo.toml', 'w') as f:
+              f.write(content)
+
+          print(f"Updated: title='{title}', author='{author}'")
+          PYEOF
+
+      - name: Commit updated configuration
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Setup: personalize site — ${{ github.event.inputs.site_title }}"
+          file_pattern: hugo.toml
