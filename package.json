@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "npx tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --watch",
-    "build": "npx tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --minify"
+    "build": "npx tailwindcss -i ./assets/css/main.css -o ./static/css/main.css --minify && hugo --theme literary --minify"
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",
