@@ -42,4 +42,3 @@ I will say, sometimes he's *too* bold. He makes these huge, sweeping generalizat
 
 **The Verdict:**
 A total mind-expander. *Sapiens* is one of those rare books that actually changes the way you perceive reality. It's a provocative, daring, and slightly terrifying journey through the history of the human animal. If you want to feel both incredibly smart and completely insignificant at the same time, this is the book for you.
-EOF

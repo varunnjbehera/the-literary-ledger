@@ -44,4 +44,3 @@ But that's why it's so powerful. It's not pop-psychology; it's rigorous science.
 
 **The Verdict:**
 A life-altering piece of work. It's the definitive guide to the glitches in the human operating system. It's a challenging read, but it's one of the few books that actually teaches you *how* to think, rather than *what* to think. If you're okay with having your worldview shattered a few times, this is a must-read.
-EOF

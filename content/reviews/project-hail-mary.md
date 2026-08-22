@@ -40,4 +40,3 @@ If I have any complaints, it's that Ryland Grace feels a lot like Mark Watney fr
 
 **The Verdict:**
 A total triumph. It's a love letter to science, curiosity, and the power of an unexpected friendship. Whether you're a hardcore sci-fi fan or someone who usually hates "hard science," this book will win you over. It's funny, it's thrilling, and it'll probably make you cry. 10/10, would travel across the galaxy for a space-spider friend.
-EOF

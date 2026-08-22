@@ -42,4 +42,3 @@ The ending... man, the ending. I won't give it away, but the choice she makes at
 
 **The Verdict:**
 A stunning, luminous read. It’s the kind of book that makes you feel like you’ve been on a vacation in a dream. Whether you love Greek myths or have never read a single one, *Circe* is a must-read. It’s a story about survival, self-discovery, and the courage to be human in a world of gods. 10/10, would turn my enemies into pigs again.
-EOF

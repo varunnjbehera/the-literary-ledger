@@ -41,4 +41,3 @@ Overall, *Dune* is just a titan. It's not a "light read." You can't just skim th
 
 **The Verdict:**
 An absolute masterpiece of sci-fi. It's a challenging read, but it's one of those books that actually changes how you think about power and destiny. If you're tired of "cookie-cutter" space operas and want something that actually has some meat on its bones, *Dune* is the gold standard. Just remember to keep a glass of water nearby.
-EOF

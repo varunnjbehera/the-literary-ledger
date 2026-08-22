@@ -40,4 +40,3 @@ The only downside? The characters are a bit thin. They're more like "roles" than
 
 **The Verdict:**
 A flawless piece of clockwork plotting. *Murder on the Orient Express* is the gold standard of the whodunit because it knows exactly how to play with your expectations. It's cozy, it's tense, and it's deeply satisfying. If you like puzzles, this is the one to start with.
-EOF

@@ -42,4 +42,3 @@ But do I like it? Surprisingly, yes. I like it in the way I like a warm blanket 
 
 **The Verdict:**
 It's a "spiritual hug" of a book. If you're looking for a complex novel with deep character arcs and gritty realism, look elsewhere. But if you're feeling burnt out and just need a reminder that life might actually have some magic in it, give it a go. Just don't take the "Personal Legend" stuff too literally, or you'll find yourself selling your car to go look for treasure in the Sahara.
-EOF

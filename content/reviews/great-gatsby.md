@@ -42,4 +42,3 @@ Nick, the narrator, is the only one who actually gets it. He sees that Gatsby's 
 
 **The Verdict:**
 A shimmering, heartbreaking masterpiece. *The Great Gatsby* is a reminder that you can't buy your way out of your past, and that the most dangerous thing in the world is a dream that refuses to die. It's a quick read, but it leaves a huge mark. 10/10, would still feel bad for the guy with the green light.
-EOF

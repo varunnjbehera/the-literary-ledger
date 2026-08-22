@@ -42,4 +42,3 @@ But honestly? I don't care. This book is designed for the "binge-read," and it n
 
 **The Verdict:**
 A high-voltage psychological game. *The Silent Patient* is the perfect example of how to write a modern thriller. It's smart, it's dark, and it'll leave you questioning everything you think you know about the people in your life. 10/10, would let a mysterious therapist try to "fix" me again.
-EOF

@@ -42,4 +42,3 @@ Overall, *The Hobbit* is just a perfect piece of storytelling. It's a reminder t
 
 **The Verdict:**
 A timeless, comforting masterpiece. *The Hobbit* is the ultimate "adventure" book because it's as much about the internal journey as the external one. It's a beautiful story about courage, friendship, and the importance of a good pantry. 10/10, would definitely go on a quest with some grumpy dwarves.
-EOF
